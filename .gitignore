@@ -1,0 +1,45 @@
+# ═══════════════════════════════════════════════════════════════
+# x-media-hub — sichert NUR die Top-Level-Klammer.
+# Alles andere ist entweder ein eigenes Repo, Schwergewicht
+# (node_modules) oder enthält Secrets → ausgeschlossen.
+# ═══════════════════════════════════════════════════════════════
+
+# --- Secrets (nie committen) ---
+API-KEYS.md
+*.env
+.env*
+# Dieses Setup-Skript enthält einen Klartext-Key → ausgeschlossen,
+# bis der Key in eine ENV-Variable ausgelagert ist:
+03-Setup-n8n-Workflows-Backup.command
+
+# --- Eigenständige Sub-Repos (schon auf github.com/x-media-music) ---
+crm/
+creative-studio/
+buchhaltungsassistent/
+n8n-workflows/
+tools/gsc-mcp/
+website-xmedia24/
+website-hofbraeu-regiment/
+website-vips-partyband/
+website-oktoberfestbands24/
+website-partybands24/
+
+# --- Working-Dirs mit vielen Secrets (n8n-Backups, Credential-Inventare) ---
+# Kein "Glue". Enthalten Supabase-/n8n-Keys, SMTP-Passwörter etc.
+# Später ggf. bereinigte Teilmengen aufnehmen — vorerst komplett raus.
+docs/
+crm-rebuild/
+
+# --- Schwergewicht ---
+**/node_modules/
+dist/
+build/
+
+# --- System / Cache ---
+.DS_Store
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+*.swp
+*.log
