@@ -29,6 +29,23 @@ Skills referenzieren ggf. noch alte Dropbox-Pfade. **Diese Tabelle hat Vorrang**
 
 ---
 
+## GitHub-Sync (Phase 2 · seit 06.07.2026)
+
+Die x-media-**Klammer** (dieser Ordner, ohne Unterprojekte) ist ein privates Git-Repo:
+`github.com/x-media-music/x-media-hub`. Gesichert werden nur die Top-Level-Dateien
+(CLAUDE.md, README, saubere `.command`-Skripte). **Ausgeschlossen** (siehe `.gitignore`):
+alle Sub-Repos (crm, website-*, creative-studio, n8n-workflows, tools/gsc-mcp …), `docs/`,
+`crm-rebuild/`, `node_modules/`, `API-KEYS.md`, `03-Setup-n8n-Workflows-Backup.command`.
+
+Die Sub-Repos haben **eigene** GitHub-Repos und werden dort separat gesichert — hier nicht anfassen.
+
+- **Vor** Arbeit an der Klammer: `git pull`. **Nach** Arbeit: `git add -A && git commit`,
+  dann `git push` — **nur mit Dirks Freigabe** (OWNER-GATE).
+- **Secrets NIE committen.** Vor jedem Commit `git status` prüfen.
+- Git-Operationen **nativ auf dem Mac** ausführen, nicht aus der Cowork-Sandbox.
+
+---
+
 ## Wer & Was
 
 **Unternehmen:** x-media music GmbH (Musikagentur, Künstlermanagement, Musikverlag) + x-media event GmbH (Eventproduktion)
