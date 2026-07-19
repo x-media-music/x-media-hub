@@ -125,7 +125,7 @@ Die Sub-Repos haben **eigene** GitHub-Repos und werden dort separat gesichert �
 |---|---|---|---|---|
 | **website-oktoberfestbands24** | `~/Documents/Claude/Projects/x-media/website-oktoberfestbands24/` | `x-media-music/oktoberfestbands24` (privat) | `oktoberfestbands24.de` | Next.js 16 + React 19 + Supabase + Tailwind 4. Live seit ~13.04.2026. |
 | **website-partybands24** | `~/Documents/Claude/Projects/x-media/website-partybands24/` | `x-media-music/partybands24` (privat) | `partybands24.de` | identischer Stack. Live seit ~13.04.2026. |
-| **website-hofbraeu-regiment** | `~/Documents/Claude/Projects/x-media/website-hofbraeu-regiment/` | `x-media-music/website-hofbraeu-regiment` (privat) | Staging: `lightcyan-wolf-882783.hostingersite.com` · Cutover auf `hofbraeu-regiment.de` ausstehend | Next.js 16 + React 19 + Tailwind 4 + i18n DE/EN. Eigener DOI-Flow für Reservisten (Brevo direkt + HMAC-Token). Skill: `xmedia-hofbraeu-regiment`. Master-Doku: `~/Documents/Claude/Projects/hofbraeu-regiment 2026/PROJEKT-DOKUMENTATION.md` |
+| **website-hofbraeu-regiment** | `~/Documents/Claude/Projects/x-media/website-hofbraeu-regiment/` | `x-media-music/website-hofbraeu-regiment` (privat) | **`hofbraeu-regiment.de` — live seit DNS-Cutover 17.06.2026** | Next.js 16 + React 19 + Tailwind 4 + i18n DE/EN. Eigener DOI-Flow für Reservisten (Brevo direkt + HMAC-Token). Skill: `xmedia-hofbraeu-regiment`. Master-Doku: `~/Documents/Claude/Projects/hofbraeu-regiment 2026/PROJEKT-DOKUMENTATION.md` |
 | **xmedia-gsc-mcp** | `~/Documents/Claude/Projects/x-media/tools/gsc-mcp/` | `x-media-music/xmedia-gsc-mcp` (privat) | (lokales Python-Tool) | Google Search Console MCP-Server für SEO-Monitoring der Landingpages |
 
 ### 🟢 In Entwicklung / Pause
@@ -140,7 +140,7 @@ Die Sub-Repos haben **eigene** GitHub-Repos und werden dort separat gesichert �
 
 | Projekt | Plattform | Integration | Migration |
 |---|---|---|---|
-| **hofbraeu-regiment.de** | WordPress (Avada-Theme) — bleibt parallel live bis DNS-Cutover | CF7-Formular → n8n → Supabase; iCal-Feed Band-ID 22 | ✅ neue Next.js-Site fertig auf Staging (`lightcyan-wolf-882783.hostingersite.com`), DNS-Cutover bei `hofbraeu-regiment.de` ausstehend. Doku: `~/Documents/Claude/Projects/hofbraeu-regiment 2026/PROJEKT-DOKUMENTATION.md` |
+| **hofbraeu-regiment.de** | ~~WordPress (Avada)~~ → **Next.js, migriert** | CF7-Formular → n8n → Supabase; iCal-Feed Band-ID 22 | ✅ **abgeschlossen.** DNS-Cutover 17.06.2026, Domain zeigt auf die Next.js-App (Hostinger). Alte WP-Installation liegt nur noch als Backup (mind. 90 Tage, siehe `DECOMMISSIONING-Runbook.md`) — **nicht mehr die Live-Seite**. Ab hier gilt die Zeile in „Live-Landingpages" oben. |
 | **vips-partyband.de** | WordPress (extern) | CF7-Formular → n8n → Supabase; iCal-Feed Band-ID 25 | ⏳ Migration nach HBR-Vorbild geplant. Schritt-für-Schritt: `~/Documents/Claude/Projects/hofbraeu-regiment 2026/VIPS-PARTYBAND-Blueprint.md` |
 
 ---
