@@ -43,3 +43,20 @@ __pycache__/
 .idea/
 *.swp
 *.log
+
+# --- Sicherungen (25.08.2026): enthalten Kundendaten und Zugangsdaten ---
+_DB-Sicherung/
+_SICHERUNG-CRM-*/
+_neu-fuer-crm/
+_ZU_LOESCHEN/
+_Google-Ads-Export/
+
+# --- Nachtrag 19.09.2026: gehört nicht in die Klammer ---
+# n8n-Workflow-Auszüge — enthalten Zugangsdaten (3 von 4 Dateien geprüft)
+_n8n-Sicherung/
+# Arbeitsablage aus Cowork-Sitzungen, kein Bestandteil des Projekts
+Claude outputs/
+# Eigenes Repo: github.com/x-media-music/... — wird separat gesichert
+mcp-crm-server/
+# Sicherungskopie, 39 MB inkl. node_modules
+mcp-crm-server_SICHERUNG_*/

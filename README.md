@@ -17,9 +17,8 @@ cd ~/Documents/Claude/Projects/x-media
 git clone https://github.com/x-media-music/xmedia-crm.git crm
 git clone https://github.com/x-media-music/xmedia24-website.git website-xmedia24
 
-# 2. API-KEYS aus Dropbox per Symlink ins CRM
-ln -s "$HOME/Library/CloudStorage/Dropbox/x-media MUSIC GmbH/CRM/API-KEYS.md" \
-      "$HOME/Documents/Claude/Projects/x-media/crm/API-KEYS.md"
+# 2. API-KEYS per relativem Symlink ins CRM (NICHT aus Dropbox!)
+cd ~/Documents/Claude/Projects/x-media/crm && ln -s ../API-KEYS.md API-KEYS.md && cd ..
 
 # 3. Fertig — testen, dass alles da ist
 ls crm/ website-xmedia24/
@@ -27,7 +26,7 @@ ls crm/ website-xmedia24/
 
 ## Wichtige Regeln
 
-- **Code lebt hier**, nicht in Dropbox.
+- **Code lebt hier**, nicht in Dropbox. Der frühere CRM-Ordner in Dropbox wurde am 25.08.2026 stillgelegt und gelöscht.
 - **Dokumente, Verträge, Belege, Marketing-Assets bleiben in Dropbox.**
 - **Credentials niemals committen.** Siehe Goldene Regeln in der Master-CLAUDE.md.
 - **Live-Systeme (CRM, n8n) niemals direkt ändern** — alles über Git + Deploy-Skripte.

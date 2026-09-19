@@ -1,0 +1,58 @@
+#!/bin/bash
+# =====================================================================
+#  CRM täglicher Git-Backup  —  läuft AUF DEM MAC
+#  Nutzt dein vorhandenes gh/Git-Login (macOS-Schlüsselbund).
+#  Wird sowohl vom launchd-Job (20:00 Uhr) als auch per Doppelklick genutzt.
+# =====================================================================
+set -uo pipefail
+
+CRM_DIR="/Users/dirkwoehrle/Documents/Claude/Projects/x-media/crm"
+EXPECTED_REMOTE="https://github.com/x-media-music/xmedia-crm.git"
+LOG="$HOME/Library/Logs/crm-git-backup.log"
+
+# PATH ergänzen, damit launchd git/gh findet (Homebrew + System)
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+
+log() { echo "$(date '+%Y-%m-%d %H:%M:%S')  $*" | tee -a "$LOG"; }
+
+log "----- CRM-Backup gestartet -----"
+
+cd "$CRM_DIR" 2>/dev/null || { log "FEHLER: CRM-Ordner nicht gefunden: $CRM_DIR"; exit 1; }
+
+# --- Sicherheits-Check: nur ins richtige Repo pushen ---
+REMOTE="$(git remote get-url origin 2>/dev/null || true)"
+if [ "$REMOTE" != "$EXPECTED_REMOTE" ]; then
+  log "ABBRUCH: Falsches Remote ('$REMOTE'), erwartet '$EXPECTED_REMOTE'. Kein Push."
+  exit 1
+fi
+
+# --- Git-Identität sicherstellen (lokal im Repo) ---
+git config user.name  >/dev/null 2>&1 || git config user.name  "x-media-music"
+git config user.email >/dev/null 2>&1 || git config user.email "info@xmedia24.com"
+
+# --- 1) Ungespeicherte Datei-Änderungen? Dann committen. ---
+N=0
+if [ -n "$(git status --porcelain)" ]; then
+  N="$(git status --porcelain | wc -l | tr -d ' ')"
+  git add -A
+  git commit -m "Auto-Backup $(date '+%Y-%m-%d') (tägliche Sicherung)" >>"$LOG" 2>&1
+  log "$N Datei(en) committet (Commit $(git rev-parse --short HEAD))."
+fi
+
+# --- 2) Gibt es (neue ODER alte) noch nicht gepushte Commits? ---
+AHEAD="$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)"
+if [ "$N" -eq 0 ] && [ "$AHEAD" -eq 0 ]; then
+  log "Keine Änderungen und nichts zu pushen. Fertig."
+  exit 0
+fi
+
+# --- 3) Push ---
+if git push origin main >>"$LOG" 2>&1; then
+  log "OK: Stand zu GitHub gepusht (Commit $(git rev-parse --short HEAD), $AHEAD Commit(s) übertragen)."
+else
+  log "WARNUNG: lokal gesichert (Commit $(git rev-parse --short HEAD)), aber Push fehlgeschlagen."
+  log "         Prüfe im Terminal:  gh auth status   /   git -C \"$CRM_DIR\" push"
+  exit 1
+fi
+
+log "----- CRM-Backup beendet -----"

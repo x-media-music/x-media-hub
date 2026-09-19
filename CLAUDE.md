@@ -1,5 +1,10 @@
 # x-media — Projekt-Ökosystem
 
+> ## ⚙️ ZUERST: `_dach/WERKZEUGE.md`
+> Dort steht auf **einer Seite**, was Claude kann und wie es aufgerufen wird.
+> **Bevor du sagst „das geht nicht" — erst dort nachsehen.** (03.09.2026)
+
+
 > **Stand:** 26.05.2026 · **Pflege:** Diese Datei bei jeder größeren Änderung aktualisieren.
 > **Lese-Reihenfolge für Claude:** Diese Datei zuerst — dann projektspezifische `CLAUDE.md` im jeweiligen Unterordner — dann passenden Skill (`xmedia-crm`, `xmedia-website`, `xmedia-hofbraeu-regiment`, `xmedia-n8n` etc.).
 
@@ -9,7 +14,7 @@ Skills referenzieren ggf. noch alte Dropbox-Pfade. **Diese Tabelle hat Vorrang**
 
 | Veralteter Pfad (in Skills) | Aktueller Pfad (verwende DIESEN) |
 |---|---|
-| `~/Library/CloudStorage/Dropbox/x-media MUSIC GmbH/CRM/` | `~/Documents/Claude/Projects/x-media/crm/` |
+| `~/Library/CloudStorage/Dropbox/x-media MUSIC GmbH/CRM/` | `~/Documents/Claude/Projects/x-media/crm/` — **existiert seit 25.08.2026 nicht mehr** |
 | `~/Dropbox/x-media MUSIC GmbH/CRM/` | `~/Documents/Claude/Projects/x-media/crm/` |
 | `Dropbox → Website 2026/xmedia24.com/` | `~/Documents/Claude/Projects/x-media/website-xmedia24/` |
 | `~/Dropbox/Content Creator/` | `~/Documents/Claude/Projects/x-media/creative-studio/` |
@@ -24,7 +29,7 @@ Skills referenzieren ggf. noch alte Dropbox-Pfade. **Diese Tabelle hat Vorrang**
 |---|---|
 | `xmedia-newsletter-project` | **veraltet** — beschreibt nur den Plan vom 15.03.2026, nicht den Ist-Zustand. Brevo ist inzwischen produktiv → siehe `xmedia-brevo` Skill. |
 | `crm-newsletter` | **DEPRECATED** — beschreibt den CRM-internen Block-Editor, der nicht mehr genutzt wird. Newsletter laufen über Brevo. Code im CRM existiert noch, soll aber nicht weiterentwickelt werden. |
-| `xmedia-n8n` Abschnitt 11 | **veraltete Fehlerbeschreibung** — die Brevo-Sync-Workflows (BrvSyncIns01abc01 / BrvSyncUpd01abc01) sind NICHT mehr defekt. Laufen produktiv. Authoritative Quelle: `xmedia-brevo`. |
+| ~~`xmedia-n8n` Abschnitt 11~~ | **ERLEDIGT 03.09.2026.** Die Warnung war selbst falsch: Der Skill hat die Brevo-Sync-Workflows nie als defekt beschrieben, sondern den Fix vom 05.05.2026 als historischen Kontext dokumentiert. Skill am 03.09. überarbeitet (Cloud gekündigt, Dropbox-Pfade, Rollback). |
 | `crm-architektur` Backup-Diagramm | **Pfade veraltet** — der "lokale Dateien"-Pfad ist nicht mehr `~/Library/CloudStorage/Dropbox/...`, sondern `~/Documents/Claude/Projects/x-media/crm/`. |
 
 ---
@@ -149,7 +154,7 @@ Die Sub-Repos haben **eigene** GitHub-Repos und werden dort separat gesichert �
 
 ### CRM (kritisch)
 
-1. **Live-System nie direkt ändern.** Deploy ausschließlich über `deploy-hostinger.js` im CRM-Ordner — das Skript macht automatisch `git push` vor dem Deploy.
+1. **Live-System nie direkt ändern.** Deploy ausschließlich über `deploy-hostinger.js` in `x-media/crm/` (Zweig `main`). Das Skript sichert vorher nach GitHub und **bricht ab**, wenn das misslingt oder wenn es nicht im produktiven Ordner liegt. Gesichert wird außerdem automatisch: Code 5× täglich, Datenbank täglich 20:30 — siehe `backup-crm-git.command` und `backup-crm-datenbank.command`.
 2. **SW-Cache-Version hochzählen** vor jedem Deploy (`sw.js`).
 3. **`exposes/` muss immer im Deploy-Zip sein** — Deployment ersetzt den ganzen `public_html`.
 4. **`API-KEYS.md` bleibt LOKAL** (in `~/Documents/Claude/Projects/x-media/API-KEYS.md`, x-media Root außerhalb aller Git-Repos), nie auf GitHub — kein Repo trackt diesen Pfad.
@@ -205,15 +210,18 @@ Die Sub-Repos haben **eigene** GitHub-Repos und werden dort separat gesichert �
 
 ```
 ~/Library/CloudStorage/Dropbox/x-media MUSIC GmbH/
-├── API-KEYS.md                     (alle Credentials, LOKAL)
 ├── Buchhaltung/                    (Belege, PDFs, Scans)
 ├── Verträge/
 ├── Marketing/                      (Bilder, Assets)
 ├── Designvorlagen/
-└── [die alten CRM/, Website/, Buchhaltungsassisitent/, Content Creator/]
-    └── ↑ nach erfolgreicher Migration als reines Backup behalten,
-        nicht mehr aktiv ändern
+└── [die alten Website/, Buchhaltungsassisitent/, Content Creator/]
+    └── ↑ reines Backup, nicht mehr aktiv ändern
 ```
+
+> **CRM/ gibt es hier seit dem 25.08.2026 nicht mehr.** Der Ordner wurde stillgelegt und gelöscht,
+> weil dort trotz gegenteiliger Regel weitergearbeitet wurde und dadurch der Live-Stand
+> 3½ Monate ohne Sicherung blieb. Das CRM lebt ausschließlich in `x-media/crm/` (Zweig `main`).
+> `API-KEYS.md` liegt seit 01.07.2026 in `x-media/API-KEYS.md`, nicht mehr in Dropbox.
 
 ### Cloud-Services
 
@@ -255,8 +263,8 @@ Wenn Claude an einem Projekt arbeitet, sollten zusätzlich zu dieser Datei diese
 
 | Skill | Status | Anmerkung |
 |---|---|---|
-| `xmedia-newsletter-project` | **historisches Konzept-Dokument** | Beschreibt den Plan vom 15.03.2026 mit Phasen "OFFEN". Inzwischen via Brevo (`xmedia-brevo`) umgesetzt. Nur noch als Archiv lesen, nicht als aktuelle Referenz. |
-| `crm-newsletter` | **DEPRECATED** | Beschreibt den CRM-internen MJML-Block-Newsletter-Editor, der **nicht mehr genutzt wird**. Newsletter laufen jetzt über Brevo. |
+| `xmedia-newsletter-project` | **ZUR LÖSCHUNG** (Dirk, 03.09.2026) | Konzept vom 15.03.2026, inzwischen über Brevo umgesetzt (`xmedia-brevo`). Skill soll entfernt werden. |
+| `crm-newsletter` | **ZUR LÖSCHUNG** (Dirk, 03.09.2026) | CRM-interner MJML-Block-Editor, wird nicht mehr genutzt. Newsletter laufen über Brevo. Skill soll entfernt werden, ebenso n8n-Workflow 07 `0JPdCeB5extwHsDQ`. |
 
 ---
 
@@ -264,7 +272,7 @@ Wenn Claude an einem Projekt arbeitet, sollten zusätzlich zu dieser Datei diese
 
 Diese Punkte sind nicht akut blockierend, sollten aber bei Gelegenheit angegangen werden:
 
-1. **`xmedia-n8n` Skill ist hier veraltet** — beschreibt die Brevo-Sync-Workflows fälschlich als defekt (`$helpers is not defined`). Laut `xmedia-brevo`-Skill laufen sie produktiv. Bei nächster Pflege des `xmedia-n8n`-Skills Abschnitt 11 entfernen oder korrigieren.
+1. ~~**`xmedia-n8n` Skill ist hier veraltet**~~ — **ERLEDIGT 03.09.2026.** Der Vorwurf traf nicht zu; der Skill war korrekt. Überarbeitet wurden stattdessen: n8n-Cloud-Abo gekündigt (Rollback-Abschnitt neu), Dropbox-Pfade, doppelte Kapitelnummer. **Offen: der Skill muss noch neu installiert werden** (`crm-rebuild/skills/xmedia-n8n/INSTALL.md`), sonst läuft die alte Fassung weiter.
 2. **DNS-Records für xmedia24.com:** Aktueller Stand laut `xmedia-brevo/references/senders-and-dns.md` prüfen (Brevo erzwingt DKIM/SPF, hat möglicherweise schon eingerichtet). Falls dort dokumentiert: aus dieser Liste streichen.
 3. **n8n Service Role Keys hardcoded** in Workflow-Nodes statt als Credentials — bei Rotation aufwendig.
 4. **Hostinger-MCP** in Cowork registriert, aber Actions nicht aktiviert.
@@ -279,7 +287,7 @@ Diese Punkte sind nicht akut blockierend, sollten aber bei Gelegenheit angegange
 
 - **Detail-Bestandsaufnahme:** `~/Documents/claude/Projects/x-media/docs/bestandsaufnahme-2026-05.md`
 - **Skill-Verzeichnis:** in Claude über `mcp__skills__list_skills`
-- **Credentials:** `~/Library/CloudStorage/Dropbox/x-media MUSIC GmbH/CRM/API-KEYS.md`
+- **Credentials:** `~/Documents/Claude/Projects/x-media/API-KEYS.md` (x-media Root, außerhalb aller Git-Repos)
 - **Hofbräu-Regiment-Site (neu, Next.js):**
   - Master-Doku: `~/Documents/Claude/Projects/hofbraeu-regiment 2026/PROJEKT-DOKUMENTATION.md`
   - VIPS-Blueprint: `~/Documents/Claude/Projects/hofbraeu-regiment 2026/VIPS-PARTYBAND-Blueprint.md`
